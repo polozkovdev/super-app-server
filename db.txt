@@ -1,0 +1,39 @@
+db User:
+
+User: {
+    email,
+    password,
+    userName,
+
+
+    notifications,
+    rewards,
+    statistic,
+    activities: [
+        Games: [
+            name,
+            isInProgress,
+            isCompleted,
+            level,
+            currentLevel
+
+        ],
+        Tests,
+        Puzzles,
+    ]
+
+}
+
+interface Game: {
+    name,
+    route,
+    title,
+    description,
+    category,
+    isFree
+    levels
+}
+
+Games: Game[]
+Tests: Game[]
+Puzzles: Game[]

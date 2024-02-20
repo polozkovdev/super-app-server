@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Game {
+  id           Int        @id @default(autoincrement())
+  name         String     @unique
+  isInProgress Boolean
+  isCompleted  Boolean
+  level        Int
+  currentLevel Int
+  resources    Resources? @relation(fields: [gamesId], references: [id])
+  gamesId      Int?
+  puzzles      Puzzles[]
+  tests        Tests[]
+}
+
+model Puzzles {
+  id           Int        @id @default(autoincrement())
+  name         String     @unique
+  isInProgress Boolean
+  isCompleted  Boolean
+  level        Int
+  currentLevel Int
+  resources    Resources? @relation(fields: [gamesId], references: [id])
+  gamesId      Int?
+  Game         Game?      @relation(fields: [gameId], references: [id])
+  gameId       Int?
+}
+
+model Tests {
+  id           Int        @id @default(autoincrement())
+  name         String     @unique
+  isInProgress Boolean
+  isCompleted  Boolean
+  level        Int
+  currentLevel Int
+  resources    Resources? @relation(fields: [gamesId], references: [id])
+  gamesId      Int?
+  Game         Game?      @relation(fields: [gameId], references: [id])
+  gameId       Int?
+}
+
+model Resources {
+  id      Int       @id @default(autoincrement())
+  Games   Game[]
+  Puzzles Puzzles[]
+  Tests   Tests[]
+}
